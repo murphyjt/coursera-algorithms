@@ -28,3 +28,6 @@ bin/
 
 # OSX hidden files
 .DS_Store
+
+# Example Data
+!algs4-data/
