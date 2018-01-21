@@ -23,6 +23,10 @@
 
 package edu.princeton.cs.algs4;
 
+import java.util.HashMap;
+import java.util.Map;
+import java.util.Optional;
+
 /**
  *  The {@code UF} class represents a <em>union–find data type</em>
  *  (also known as the <em>disjoint-sets data type</em>).
@@ -98,6 +102,7 @@ public class UF {
 
     private int[] parent;  // parent[i] = parent of i
     private byte[] rank;   // rank[i] = rank of subtree rooted at i (never more than 31)
+    private int[] largest;
     private int count;     // number of components
 
     /**
@@ -113,8 +118,10 @@ public class UF {
         count = n;
         parent = new int[n];
         rank = new byte[n];
+        largest = new int[n];                
         for (int i = 0; i < n; i++) {
             parent[i] = i;
+            largest[i] = i;
             rank[i] = 0;
         }
     }
@@ -133,6 +140,15 @@ public class UF {
             p = parent[p];
         }
         return p;
+    }
+
+    public int findCanonical(int p) {
+        validate(p);
+        while (p != parent[p]) {
+            // parent[p] = parent[parent[p]];    // path compression by halving
+            p = parent[p];
+        }
+        return largest[p];
     }
 
     /**
@@ -173,11 +189,30 @@ public class UF {
         if (rootP == rootQ) return;
 
         // make root of smaller rank point to root of larger rank
-        if      (rank[rootP] < rank[rootQ]) parent[rootP] = rootQ;
-        else if (rank[rootP] > rank[rootQ]) parent[rootQ] = rootP;
+        if (rank[rootP] < rank[rootQ]) {
+            parent[rootP] = rootQ;
+            if (p > largest[rootQ]) {
+                largest[rootQ] = p;
+                largest[rootP] = p;
+            } else if (q > largest[rootQ]) {
+                largest[rootQ] = q;
+                largest[rootP] = q;
+            }
+        }
+        else if (rank[rootP] > rank[rootQ]) {
+            parent[rootQ] = rootP;
+            if (p > largest[rootP]) {
+                largest[rootP] = p;
+                largest[rootQ] = p;
+            } else if (q > largest[rootP]) {
+                largest[rootP] = q;
+                largest[rootQ] = q;
+            }
+        }
         else {
             parent[rootQ] = rootP;
             rank[rootP]++;
+            largest[rootP] = p > q ? p : q;
         }
         count--;
     }
@@ -210,6 +245,17 @@ private void validate(int p) {
             StdOut.println(p + " " + q);
         }
         StdOut.println(uf.count() + " components");
+
+        Map<Integer, Integer> largest = new HashMap<>();
+
+        for (int i = 0; i < n; i++) {
+            int canon = uf.findCanonical(i);
+            largest.put(canon, Optional.ofNullable(largest.get(canon)).orElse(0) + 1);
+        }
+
+        for (Map.Entry<Integer, Integer> entry : largest.entrySet()) {
+            StdOut.printf("%d is largest of %d nodes.%n", entry.getKey(), entry.getValue());
+        }
     }
 }
 
