@@ -4,8 +4,10 @@ import edu.princeton.cs.algs4.StdStats;
 
 public class PercolationStats {
 
+    private static final double CONFIDENCE_95 = 1.96d;
+
     private int trialsPerformed;
-    private double[] thresholds;
+    private final double[] thresholds;
 
     /**
      * Perform trials independent experiments on an n-by-n grid.
@@ -22,9 +24,8 @@ public class PercolationStats {
             while (!percolation.percolates()) {
                 int row = StdRandom.uniform(1, n + 1);
                 int col = StdRandom.uniform(1, n + 1);
-                int site = (row - 1) * n + (col - 1);
 
-                // StdOut.printf("Opening (%d, %d) site %d of %d%n", row, col, site, numberOfSites);
+                // StdOut.printf("Opening (%d, %d) site %d of %d%n", row, col, (row - 1) * n + (col - 1), numberOfSites);
                 percolation.open(row, col);
             }
 
@@ -51,16 +52,16 @@ public class PercolationStats {
      * low  endpoint of 95% confidence interval
      */
     public double confidenceLo() {
-        double numerator = 1.96f * stddev();
-        return mean() - numerator / Math.sqrt(trialsPerformed);
+        double numerator = CONFIDENCE_95 * (trialsPerformed > 1 ? StdStats.stddev(thresholds) : Double.NaN);
+        return StdStats.mean(thresholds) - numerator / Math.sqrt(trialsPerformed);
     }
 
     /**
      * High endpoint of 95% confidence interval.
      */
     public double confidenceHi() {
-        double numerator = 1.96f * stddev();
-        return mean() + numerator / Math.sqrt(trialsPerformed);
+        double numerator = CONFIDENCE_95 * (trialsPerformed > 1 ? StdStats.stddev(thresholds) : Double.NaN);
+        return StdStats.mean(thresholds) + numerator / Math.sqrt(trialsPerformed);
     }
 
     public static void main(String[] args) {
