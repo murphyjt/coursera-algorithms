@@ -39,10 +39,8 @@ public class Percolation {
             // Connect it to top neighbor or Source
             if (row == 1) {
                 uf.union(to1D(row, col), getSource());
-                openCount++;
             } else if (isOpen(row - 1, col)) {
                 uf.union(to1D(row, col), to1D(row - 1, col));
-                openCount++;
             }
 
             // Connect it to bottom neighbor or Sink
@@ -50,19 +48,16 @@ public class Percolation {
                 uf.union(to1D(row, col), getSink());
             } else if (isOpen(row + 1, col)) {
                 uf.union(to1D(row, col), to1D(row + 1, col));
-                openCount++;
             }
 
             // Connect it to left neighbor
             if (col != 1 && isOpen(row, col - 1)) {
                 uf.union(to1D(row, col), to1D(row, col - 1));
-                openCount++;
             }
 
             // Connect it to right neighbor
             if (col != n && isOpen(row, col + 1)) {
                 uf.union(to1D(row, col), to1D(row, col + 1));
-                openCount++;
             }
         }
         

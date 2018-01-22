@@ -6,6 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug PercolationStats (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "PercolationStats",
+            "args": "200 1000"
+        },
+        {
+            "type": "java",
             "name": "Debug PercolationVisualizer (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",
