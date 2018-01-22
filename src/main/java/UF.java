@@ -21,10 +21,12 @@
  *
  ******************************************************************************/
 
-import edu.princeton.cs.algs4.*;
+import edu.princeton.cs.algs4.StdIn;
+import edu.princeton.cs.algs4.StdOut;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
+import com.google.errorprone.annotations.Var;
 
 /**
  *  The {@code UF} class represents a <em>union–find data type</em>
@@ -132,7 +134,7 @@ public class UF {
      * @return the component identifier for the component containing site {@code p}
      * @throws IllegalArgumentException unless {@code 0 <= p < n}
      */
-    public int find(int p) {
+    public int find(@Var int p) {
         validate(p);
         while (p != parent[p]) {
             parent[p] = parent[parent[p]];    // path compression by halving
@@ -141,7 +143,7 @@ public class UF {
         return p;
     }
 
-    public int findCanonical(int p) {
+    public int findCanonical(@Var int p) {
         validate(p);
         while (p != parent[p]) {
             // parent[p] = parent[parent[p]];    // path compression by halving

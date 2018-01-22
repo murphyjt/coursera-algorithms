@@ -1,4 +1,4 @@
-import edu.princeton.cs.algs4.WeightedQuickUnionUF;;
+import edu.princeton.cs.algs4.WeightedQuickUnionUF;
 
 /**
  * http://coursera.cs.princeton.edu/algs4/assignments/percolation.html

@@ -20,8 +20,11 @@ import java.awt.Font;
 
 import edu.princeton.cs.algs4.In;
 import edu.princeton.cs.algs4.StdDraw;
+import com.google.errorprone.annotations.Var;
 
 public class PercolationVisualizer {
+
+    private PercolationVisualizer() {}
 
     // delay in miliseconds (controls animation speed)
     private static final int DELAY = 100;
@@ -35,7 +38,7 @@ public class PercolationVisualizer {
         StdDraw.filledSquare(n/2.0, n/2.0, n/2.0);
 
         // draw n-by-n grid
-        int opened = 0;
+        @Var int opened = 0;
         for (int row = 1; row <= n; row++) {
             for (int col = 1; col <= n; col++) {
                 if (perc.isFull(row, col)) {

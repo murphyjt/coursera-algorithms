@@ -1,5 +1,22 @@
-apply plugin: 'java'
+plugins {
+  id 'java'
+  id 'net.ltgt.errorprone' version '0.0.13'
+}
+
+repositories {
+    mavenCentral()
+}
 
 dependencies {
     compile fileTree(dir: 'libs', include: ['*.jar'])
+    compile 'com.google.errorprone:error_prone_core:2.2.0'
+    errorprone 'com.google.errorprone:error_prone_core:2.2.0'
+}
+
+tasks.withType(JavaCompile) {
+    options.compilerArgs += [
+        '-XepExcludedPaths:.*/build/classes/.*',
+        '-Xep:MissingOverride:ERROR',
+        '-XepAllDisabledChecksAsWarnings',
+    ]
 }
