@@ -6,6 +6,36 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug Permutation (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": false,
+            "mainClass": "Permutation",
+            "args": "<<< 5 <<< Priya <<< Joshua <<< Raae <<< Lupo <<< Valeria <<< Santi <<< Monja <<< Larry <<< Rhino <<< Luke <<< Leelu <<< Estefania <<< Juanito"
+        },
+        {
+            "type": "java",
+            "name": "Debug RandomizedQueue (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "RandomizedQueue",
+            "args": ""
+        },
+        {
+            "type": "java",
+            "name": "Debug Deque (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "Deque",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "Debug PercolationStats (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",
