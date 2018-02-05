@@ -5,7 +5,6 @@ import edu.princeton.cs.algs4.StdRandom;
 
 public class RandomizedQueue<Item> implements Iterable<Item> {
 
-    @SuppressWarnings("unchecked")
     private Item[] items = (Item[]) new Object[1];
     private int n = 0;
 
@@ -26,7 +25,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         assert capacity >= n;
 
         // Less efficient than Arrays::copyOf (but necessary per requirements)
-        @SuppressWarnings("unchecked")
         Item[] temp = (Item[]) new Object[capacity];
         for (int i = 0; i < n; i++) {
             temp[i] = items[i];
@@ -81,7 +79,6 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     private class RandomizedIterator implements Iterator<Item> {
 
-        @SuppressWarnings("unchecked")
         private Item[] randomizedItems = (Item[]) new Object[n];
         private int next = n - 1;
 
