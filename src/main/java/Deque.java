@@ -5,14 +5,13 @@ public class Deque<Item> implements Iterable<Item> {
 
     private Node first;
     private Node last;
+    private int n = 0;
 
     private class Node {
         private Node next;
         private Node back;
         private Item item;
     }
-
-    private int n = 0;
 
     public boolean isEmpty() {
         return n == 0;

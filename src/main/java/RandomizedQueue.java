@@ -49,15 +49,14 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
         }
         int random = StdRandom.uniform(n);
         Item item = items[random];
+
         // Replace removed item with the last item (safe for first & last item)
         items[random] = items[--n];
 
-        // Take care of the case where random is the last item
-        if (random == n) {
-            items[random] = null;
-        }
+        // Set what was the last item to null
+        items[n] = null;
 
-        if (n <= items.length / 4) {
+        if (items.length > 1 && n <= items.length / 4) {
             resize(items.length / 2);
         }
 
@@ -79,7 +78,7 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     
     private class RandomizedIterator implements Iterator<Item> {
 
-        private Item[] randomizedItems = (Item[]) new Object[n];
+        private final Item[] randomizedItems = (Item[]) new Object[n];
         private int next = n - 1;
 
         public RandomizedIterator() {
@@ -117,52 +116,62 @@ public class RandomizedQueue<Item> implements Iterable<Item> {
     }
 
     public static void main(String[] args) {
-        RandomizedQueue<Integer> queue = new RandomizedQueue<>();
-        System.out.printf("size %d%n", queue.size());
-        queue.enqueue(1);
-        queue.enqueue(2);
-        queue.enqueue(3);
-        queue.enqueue(4);
-        queue.enqueue(5);
-        queue.enqueue(6);
-        System.out.printf("size %d%n", queue.size());
+        RandomizedQueue<Integer> rq = new RandomizedQueue<>();
+        rq.isEmpty();
+        rq.size();
+        rq.size();
+        rq.enqueue(15);
+        rq.enqueue(35);
+        rq.dequeue();
+        rq.dequeue();
+        rq.enqueue(32);
+        rq.dequeue();
+        rq.enqueue(45);
+        // System.out.printf("size %d%n", queue.size());
+        // queue.enqueue(1);
+        // queue.enqueue(2);
+        // queue.enqueue(3);
+        // queue.enqueue(4);
+        // queue.enqueue(5);
+        // queue.enqueue(6);
+        // System.out.printf("size %d%n", queue.size());
 
-        System.out.println("Iterating");
-        queue.forEach(number -> System.out.println(number));
+        // System.out.println("Iterating");
+        // queue.forEach(number -> System.out.println(number));
 
-        System.out.println("Nested foreach");
-        for (int outer : queue) {
-            System.out.println("Outer " + outer);
-            for (int inner : queue) {
-                System.out.println("Inner " + inner);
-            }
-        }
+        // System.out.println("Nested foreach");
+        // for (int outer : queue) {
+        //     System.out.println("Outer " + outer);
+        //     for (int inner : queue) {
+        //         System.out.println("Inner " + inner);
+        //     }
+        // }
 
-        System.out.println("Manual dequeue");
-        System.out.printf("size %d%n", queue.size());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
+        // System.out.println("Manual dequeue");
+        // System.out.printf("size %d%n", queue.size());
+        // System.out.println(queue.dequeue());
+        // System.out.println(queue.dequeue());
+        // System.out.println(queue.dequeue());
 
-        System.out.println("Iterating");
-        queue.forEach(number -> System.out.println(number));
+        // System.out.println("Iterating");
+        // queue.forEach(number -> System.out.println(number));
 
-        System.out.println("Continuing manual dequeue");
-        System.out.printf("size %d%n", queue.size());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        System.out.println(queue.dequeue());
-        System.out.printf("size %d%n", queue.size());
+        // System.out.println("Continuing manual dequeue");
+        // System.out.printf("size %d%n", queue.size());
+        // System.out.println(queue.dequeue());
+        // System.out.println(queue.dequeue());
+        // System.out.println(queue.dequeue());
+        // System.out.printf("size %d%n", queue.size());
 
-        System.out.println("Requeing");
-        queue.enqueue(1);
-        queue.enqueue(2);
-        queue.enqueue(3);
-        queue.enqueue(4);
-        System.out.printf("size %d%n", queue.size());
+        // System.out.println("Requeing");
+        // queue.enqueue(1);
+        // queue.enqueue(2);
+        // queue.enqueue(3);
+        // queue.enqueue(4);
+        // System.out.printf("size %d%n", queue.size());
 
-        System.out.println("Iterating");
-        queue.forEach(number -> System.out.println(number));
+        // System.out.println("Iterating");
+        // queue.forEach(number -> System.out.println(number));
     }
  }
  
