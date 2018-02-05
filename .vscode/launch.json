@@ -12,7 +12,7 @@
             "console": "integratedTerminal",
             "stopOnEntry": false,
             "mainClass": "Permutation",
-            "args": "<<< 5 <<< Priya <<< Joshua <<< Raae <<< Lupo <<< Valeria <<< Santi <<< Monja <<< Larry <<< Rhino <<< Luke <<< Leelu <<< Estefania <<< Juanito"
+            "args": "5 <<< Priya <<< Joshua <<< Raae <<< Lupo <<< Valeria <<< Santi <<< Monja <<< Larry <<< Rhino <<< Luke <<< Leelu <<< Estefania <<< Juanito"
         },
         {
             "type": "java",
