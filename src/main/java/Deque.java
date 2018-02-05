@@ -53,7 +53,8 @@ public class Deque<Item> implements Iterable<Item> {
         node.item = e;
 
         if (isEmpty()) {
-            last = first = node;
+            first = node;
+            last = node;
         } else {
             node.next = first;
             first.back = node;
@@ -90,7 +91,8 @@ public class Deque<Item> implements Iterable<Item> {
         node.item = e;
 
         if (isEmpty()) {
-            last = first = node;
+            first = node;
+            last = node;
         } else {
             node.back = last;
             last.next = node;
@@ -130,7 +132,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         // Reset pointers
         if (isEmpty()) {
-            last = first = null;
+            first = null;
+            last = null;
         } else {
             first = nextNode;
         }
@@ -169,7 +172,8 @@ public class Deque<Item> implements Iterable<Item> {
 
         // Reset pointers
         if (isEmpty()) {
-            first = last = null;
+            first = null;
+            last = null;
         } else {
             last = backNode;
         }
