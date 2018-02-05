@@ -12,7 +12,7 @@ public class Deque<Item> implements Iterable<Item> {
         private Item item;
     }
 
-    int n = 0;
+    private int n = 0;
 
     public boolean isEmpty() {
         return n == 0;
