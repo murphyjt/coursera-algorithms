@@ -10,41 +10,21 @@ public class FastCollinearPoints {
     private LineSegment[] lineSegments = new LineSegment[1];
     private int n;
 
-    private void resize(final int capacity) {
-        assert capacity >= n;
-
-        // Less efficient than Arrays::copyOf (but necessary per requirements)
-        LineSegment[] temp = new LineSegment[capacity];
-        for (int i = 0; i < n; i++) {
-            temp[i] = lineSegments[i];
+    public FastCollinearPoints(Point[] pointsArg) {
+        if (pointsArg == null) throw new IllegalArgumentException();
+        for (Point point : pointsArg) if (point == null) throw new IllegalArgumentException();
+        
+        Point[] points = new Point[pointsArg.length];
+        for (int i = 0; i < pointsArg.length; i++) {
+            points[i] = pointsArg[i];
         }
-        lineSegments = temp;
-    }
-
-    private static Point[] sort(final Point[] array, final Comparator<Point> comparator) {
-        Point[] copy = new Point[array.length];
-        for (int i = 0; i < array.length; i++) {
-            copy[i] = array[i];
-        }
-        Arrays.sort(copy, comparator);
-        return copy;
-    }
-
-    private void checkInvariants(final Point[] points) {
-        if (points == null) throw new IllegalArgumentException();
-        for (Point point : points) if (point == null) throw new IllegalArgumentException();
-
+        
         Arrays.sort(points);
 
         // Check for repeated points
         for (int i = 1; i < points.length; i++) {
             if (points[i-1].compareTo(points[i]) == 0) throw new IllegalArgumentException();
         }
-    }
-
-    public FastCollinearPoints(Point[] points) {
-        
-        checkInvariants(points);
 
         for (int i = 0; i < points.length; i++) {
             Point origin = points[i];
@@ -87,6 +67,12 @@ public class FastCollinearPoints {
 
             // Handle vertical lines (will always be at end of sorted array – Double.POSITIVE_INFINITY)
             if (sortedPoints.length - groupOffset >= 3) {
+                // Only keep line segments starting from bottom to top of plane
+                // TODO verify this behavior
+                if (origin.compareTo(sortedPoints[sortedPoints.length-1]) > 0) {
+                    // Same as below (Set up for the next group)
+                    continue;
+                }
                 // We now know the at least 4 points are collinear
                 if (n == lineSegments.length) {
                     resize(2 * lineSegments.length);
@@ -99,12 +85,36 @@ public class FastCollinearPoints {
         if (lineSegments.length != n) resize(n);
     }
 
+    private void resize(final int capacity) {
+        assert capacity >= n;
+
+        // Less efficient than Arrays::copyOf (but necessary per requirements)
+        LineSegment[] temp = new LineSegment[capacity];
+        for (int i = 0; i < n; i++) {
+            temp[i] = lineSegments[i];
+        }
+        lineSegments = temp;
+    }
+
+    private static Point[] sort(final Point[] array, final Comparator<Point> comparator) {
+        Point[] copy = new Point[array.length];
+        for (int i = 0; i < array.length; i++) {
+            copy[i] = array[i];
+        }
+        Arrays.sort(copy, comparator);
+        return copy;
+    }
+
     public int numberOfSegments() {
         return n;
     }
 
     public LineSegment[] segments() {
-        return lineSegments;
+        LineSegment[] temp = new LineSegment[n];
+        for (int i = 0; i < n; i++) {
+            temp[i] = lineSegments[i];
+        }
+        return temp;
     }
 
     public static void main(String[] args) {

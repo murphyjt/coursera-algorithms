@@ -9,20 +9,14 @@ public class BruteCollinearPoints {
     private LineSegment[] lineSegments = new LineSegment[1];
     private int n;
 
-    private void resize(int capacity) {
-        assert capacity >= n;
+    public BruteCollinearPoints(Point[] pointsArg) {
+        if (pointsArg == null) throw new IllegalArgumentException();
+        for (Point point : pointsArg) if (point == null) throw new IllegalArgumentException();
 
-        // Less efficient than Arrays::copyOf (but necessary per requirements)
-        LineSegment[] temp = new LineSegment[capacity];
-        for (int i = 0; i < n; i++) {
-            temp[i] = lineSegments[i];
+        Point[] points = new Point[pointsArg.length];
+        for (int i = 0; i < pointsArg.length; i++) {
+            points[i] = pointsArg[i];
         }
-        lineSegments = temp;
-    }
-
-    public BruteCollinearPoints(Point[] points) {
-        if (points == null) throw new IllegalArgumentException();
-        for (Point point : points) if (point == null) throw new IllegalArgumentException();
 
         Arrays.sort(points);
 
@@ -84,12 +78,27 @@ public class BruteCollinearPoints {
         if (lineSegments.length != n) resize(n);
     }
 
+    private void resize(int capacity) {
+        assert capacity >= n;
+
+        // Less efficient than Arrays::copyOf (but necessary per requirements)
+        LineSegment[] temp = new LineSegment[capacity];
+        for (int i = 0; i < n; i++) {
+            temp[i] = lineSegments[i];
+        }
+        lineSegments = temp;
+    }
+
     public int numberOfSegments() {
         return n;
     }
 
     public LineSegment[] segments() {
-        return lineSegments;
+        LineSegment[] temp = new LineSegment[n];
+        for (int i = 0; i < n; i++) {
+            temp[i] = lineSegments[i];
+        }
+        return temp;
     }
 
     public static void main(String[] args) {
