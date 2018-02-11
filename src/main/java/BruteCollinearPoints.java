@@ -25,6 +25,12 @@ public class BruteCollinearPoints {
         for (Point point : points) if (point == null) throw new IllegalArgumentException();
 
         Arrays.sort(points);
+
+        // Check for repeated points
+        for (int i = 1; i < points.length; i++) {
+            if (points[i-1].compareTo(points[i]) == 0) throw new IllegalArgumentException();
+        }
+
         for (int aIndex = 0; aIndex < points.length; aIndex++) {
             Point a = points[aIndex];
 
