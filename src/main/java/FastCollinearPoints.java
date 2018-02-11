@@ -18,7 +18,7 @@ public class FastCollinearPoints {
         for (int i = 0; i < pointsArg.length; i++) {
             points[i] = pointsArg[i];
         }
-        
+
         Arrays.sort(points);
 
         // Check for repeated points
@@ -54,6 +54,17 @@ public class FastCollinearPoints {
                         currentSlope = slope;
                         continue;
                     }
+                    boolean wrongOrder = false;
+                    for (int k = groupOffset + 1; k < j; k++) {
+                        if (sortedPoints[k-1].compareTo(sortedPoints[k]) > 0) {
+                            // Same as below (Set up for the next group)
+                            groupOffset = j;
+                            currentSlope = slope;
+                            wrongOrder = true;
+                            break;
+                        }
+                    }
+                    if (wrongOrder) continue;
                     // We now know the at least 4 points are collinear
                     if (n == lineSegments.length) {
                         resize(2 * lineSegments.length);
@@ -73,6 +84,14 @@ public class FastCollinearPoints {
                     // Same as below (Set up for the next group)
                     continue;
                 }
+                boolean wrongOrder = false;
+                for (int k = groupOffset + 1; k < sortedPoints.length; k++) {
+                    if (sortedPoints[k-1].compareTo(sortedPoints[k]) > 0) {
+                        wrongOrder = true;
+                        break;
+                    }
+                }
+                if (wrongOrder) continue;
                 // We now know the at least 4 points are collinear
                 if (n == lineSegments.length) {
                     resize(2 * lineSegments.length);
