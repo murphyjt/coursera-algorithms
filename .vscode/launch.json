@@ -6,6 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug FastCollinearPoints (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "integratedTerminal",
+            "stopOnEntry": false,
+            "mainClass": "FastCollinearPoints",
+            "args": "collinear-data/mystery10089.txt"
+        },
+        {
+            "type": "java",
             "name": "Debug BruteCollinearPoints (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",
