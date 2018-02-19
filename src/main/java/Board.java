@@ -27,7 +27,8 @@ public class Board {
         tiles = new int[n][n];
         twin = new int[n][n];
         for (int row = 0; row < n; row++) {
-            assert blocks[row].length == n;
+            if (blocks[row] == null) throw new IllegalArgumentException();
+            if (blocks[row].length != n) throw new IllegalArgumentException();
             for (int col = 0; col < n; col++) {
                 final int tile = blocks[row][col];
 
@@ -49,10 +50,10 @@ public class Board {
                 if (tile != goal) hammingCount++;
 
                 // Compute manhattan distance
-                final int goalRow = (goal - 1) / n;
-                final int goalCol = (goal - 1) % n;
-                manhattanCount += Math.abs(goalRow - row);
-                manhattanCount += Math.abs(goalCol - col);
+                final int correctRow = (tile - 1) / n;
+                final int correctCol = (tile - 1) % n;
+                manhattanCount += Math.abs(correctRow - row);
+                manhattanCount += Math.abs(correctCol - col);
             }
         }
 
@@ -156,9 +157,9 @@ public class Board {
 
     public static void main(String[] args) {
         final Board board = new Board(new int[][] {
-            {3, 2, 1}, 
-            {8, 0, 4},
-            {6, 7, 5}
+            {1, 2, 3},
+            {4, 5, 6},
+            {7, 0, 8}
         });
         System.out.println("  Board  ");
         System.out.println("=========");
