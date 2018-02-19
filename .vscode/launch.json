@@ -6,6 +6,16 @@
     "configurations": [
         {
             "type": "java",
+            "name": "Debug Board (Launch)",
+            "request": "launch",
+            "cwd": "${workspaceFolder}",
+            "console": "internalConsole",
+            "stopOnEntry": false,
+            "mainClass": "Board",
+            "args": ""
+        },
+        {
+            "type": "java",
             "name": "Debug FastCollinearPoints (Launch)",
             "request": "launch",
             "cwd": "${workspaceFolder}",

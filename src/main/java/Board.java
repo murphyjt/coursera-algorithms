@@ -1,5 +1,6 @@
 import java.util.Arrays;
-import java.util.Iterator;
+
+import edu.princeton.cs.algs4.Stack;
 
 public class Board {
 
@@ -8,11 +9,13 @@ public class Board {
     private final int[][] twin;
     private final int hamming;
     private final int manhattan;
+    private int blankRow;
+    private int blankCol;
 
     /**
      * Construct a board from an n-by-n array of blocks (where blocks[i][j] = block in row i, column j).
      */
-    public Board(int[][] blocks) {
+    public Board(final int[][] blocks) {
         if (blocks == null) throw new IllegalArgumentException();
 
         n = blocks.length;
@@ -26,24 +29,28 @@ public class Board {
         for (int row = 0; row < n; row++) {
             assert blocks[row].length == n;
             for (int col = 0; col < n; col++) {
-                int tile = blocks[row][col];
+                final int tile = blocks[row][col];
 
                 // Assignment
                 tiles[row][col] = tile;
                 twin[row][col] = tile;
 
-                // Skip blank square
-                if (tile == 0) continue;
+                // Skip blank square but note location
+                if (tile == 0) {
+                    blankRow = row;
+                    blankCol = col;
+                    continue;
+                }
 
                 // Calculate goal for this [row, col]
-                int goal = row * n + col + 1;
+                final int goal = row * n + col + 1;
 
                 // Compute hamming distance
                 if (tile != goal) hammingCount++;
 
                 // Compute manhattan distance
-                int goalRow = (goal - 1) / n;
-                int goalCol = (goal - 1) % n;
+                final int goalRow = (goal - 1) / n;
+                final int goalCol = (goal - 1) % n;
                 manhattanCount += Math.abs(goalRow - row);
                 manhattanCount += Math.abs(goalCol - col);
             }
@@ -51,11 +58,11 @@ public class Board {
 
         // Assemble twin by attempting to exchange first two, otherwise exchange last two
         if (twin[0][0] != 0 && twin[0][1] != 0) {
-            int temp = twin[0][0];
+            final int temp = twin[0][0];
             twin[0][0] = twin[0][1];
             twin[0][1] = temp;
         } else {
-            int temp = twin[n - 1][n - 1];
+            final int temp = twin[n - 1][n - 1];
             twin[n - 1][n - 1] = twin[n - 1][n - 2];
             twin[n - 1][n - 2] = temp;
         }
@@ -89,7 +96,7 @@ public class Board {
         if (other == null) return false;
         if (other.getClass() != this.getClass()) return false;
 
-        Board that = (Board) other;
+        final Board that = (Board) other;
         if (that.n != this.n) return false;
         if (that.hamming != this.hamming) return false;
         if (that.manhattan != this.manhattan) return false;
@@ -97,18 +104,46 @@ public class Board {
         return Arrays.deepEquals(this.tiles, that.tiles);
     }
 
-    public Iterable<Board> neighbors() {
-        return new Iterable<Board>() {
-        
-            @Override
-            public Iterator<Board> iterator() {
-                return null;
+    private static int[][] copyOf(int[][] array) {
+        int[][] copy = new int[array.length][];
+        for (int row = 0; row < array.length; row++) {
+            copy[row] = new int[array[row].length];
+            for (int col = 0; col < array[row].length; col++) {
+                copy[row][col] = array[row][col];
             }
-        };
+        }
+        return copy;
+    }
+
+    private static int[][] swap(int[][] array, int rowA, int colA, int rowB, int colB) {
+        int[][] copy = copyOf(array);
+        int temp = copy[rowA][colA];
+        copy[rowA][colA] = copy[rowB][colB];
+        copy[rowB][colB] = temp;
+        return copy;
+    }
+
+    /**
+     * Any board may have 2, 3, or 4 neighbors.
+     */
+    public Iterable<Board> neighbors() {
+        final boolean onLeft   = blankCol == 0;
+        final boolean onTop    = blankRow == 0;
+        final boolean onRight  = blankCol == n - 1;
+        final boolean onBottom = blankRow == n - 1;
+
+        final Stack<Board> neighbors = new Stack<>();
+
+        if (!onLeft) neighbors.push(new Board(swap(this.tiles, blankRow, blankCol, blankRow, blankCol - 1)));
+        if (!onTop) neighbors.push(new Board(swap(this.tiles, blankRow, blankCol, blankRow - 1, blankCol)));
+        if (!onRight) neighbors.push(new Board(swap(this.tiles, blankRow, blankCol, blankRow, blankCol + 1)));
+        if (!onBottom) neighbors.push(new Board(swap(this.tiles, blankRow, blankCol, blankRow + 1, blankCol)));
+
+        return neighbors;
     }
 
     public String toString() {
-        StringBuilder s = new StringBuilder();
+        final StringBuilder s = new StringBuilder();
         s.append(n + "\n");
         for (int i = 0; i < n; i++) {
             for (int j = 0; j < n; j++) {
@@ -120,7 +155,16 @@ public class Board {
     }
 
     public static void main(String[] args) {
-
+        final Board board = new Board(new int[][] {
+            {3, 2, 1}, 
+            {8, 0, 4},
+            {6, 7, 5}
+        });
+        System.out.println(board);
+        System.out.println("Neighbors\n");
+        for (final Board neighbor : board.neighbors()) {
+            System.out.println(neighbor);
+        }
     }
 
 }
