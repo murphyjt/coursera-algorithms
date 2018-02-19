@@ -160,10 +160,20 @@ public class Board {
             {8, 0, 4},
             {6, 7, 5}
         });
+        System.out.println("  Board  ");
+        System.out.println("=========");
+        System.out.println();
         System.out.println(board);
-        System.out.println("Neighbors\n");
+        System.out.println("Hamming " + board.hamming());
+        System.out.println("Manhattan " + board.manhattan());
+        System.out.println();
+        System.out.println("Neighbors");
+        System.out.println("=========");
+        System.out.println();
         for (final Board neighbor : board.neighbors()) {
             System.out.println(neighbor);
+            System.out.println("Hamming " + neighbor.hamming());
+            System.out.println("Manhattan " + neighbor.manhattan());
         }
     }
 
